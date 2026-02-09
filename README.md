@@ -155,6 +155,21 @@ RapidTabs/
 
 </div>
 
+
+
+### 🌟 Stargazers  
+
+[![Stargazers over time](https://starchart.cc/Poppypy/RapidTabs.svg?variant=adaptive)](https://starchart.cc/Poppypy/RapidTabs)
+
+<div align="right">  
+
+[&nwarr; Back to top](#readme-top)  
+
+</div> 
+
+
+
+
 ## 📄 License
 
 本项目基于 **MIT License** 协议开源。详见 [LICENSE][license_url] 文件。
