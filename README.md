@@ -161,12 +161,6 @@ RapidTabs/
 
 [![Stargazers over time](https://starchart.cc/Poppypy/RapidTabs.svg?variant=adaptive)](https://starchart.cc/Poppypy/RapidTabs)
 
-<div align="right">  
-
-[&nwarr; Back to top](#readme-top)  
-
-</div> 
-
 
 
 
