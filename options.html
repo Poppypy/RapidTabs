@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RapidTabs 鼠标手势设置</title>
+    <style>
+      :root {
+        font-family: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, Segoe UI, Roboto,
+          sans-serif;
+        color: #0f172a;
+        background: #f1f5f9;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+        color: #0f172a;
+      }
+
+      .page {
+        margin: 0 auto;
+        max-width: 1120px;
+        padding: 26px 20px 36px;
+      }
+
+      .card {
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 14px 30px rgba(15, 23, 42, 0.08);
+      }
+
+      .header {
+        padding: 22px 24px;
+        margin-bottom: 18px;
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 11px;
+        border: 1px solid #e2e8f0;
+        border-radius: 999px;
+        background: #f8fafc;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .title {
+        margin: 10px 0 0;
+        font-size: 30px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        margin: 10px 0 0;
+        max-width: 720px;
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .status-chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid #e2e8f0;
+        background: #f8fafc;
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+      }
+
+      .status-neutral {
+        border-color: #e2e8f0;
+        background: #f8fafc;
+        color: #64748b;
+      }
+
+      .status-success {
+        border-color: #bbf7d0;
+        background: #f0fdf4;
+        color: #166534;
+      }
+
+      .status-error {
+        border-color: #fecdd3;
+        background: #fff1f2;
+        color: #be123c;
+      }
+
+      .status-info {
+        border-color: #bfdbfe;
+        background: #eff6ff;
+        color: #1d4ed8;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .main-panel,
+      .side-panel > .card {
+        padding: 20px;
+      }
+
+      .section-head {
+        margin: 0 0 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section-head h2,
+      .section-head h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .tiny-pill {
+        border: 1px solid #e2e8f0;
+        border-radius: 999px;
+        padding: 4px 9px;
+        font-size: 12px;
+        color: #64748b;
+        background: #f8fafc;
+      }
+
+      .setting-item {
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 10px;
+        transition: border-color 0.2s ease;
+      }
+
+      .setting-item:hover {
+        border-color: #cbd5e1;
+      }
+
+      .setting-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .setting-desc {
+        margin: 5px 0 0;
+        font-size: 12px;
+        color: #64748b;
+      }
+
+      .setting-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .number-input {
+        width: 136px;
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        outline: none;
+        padding: 0 12px;
+        font-size: 14px;
+        color: #0f172a;
+        background: #fff;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .number-input:focus {
+        border-color: #475569;
+        box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.2);
+      }
+
+      .value-pill {
+        min-width: 62px;
+        text-align: center;
+        border-radius: 8px;
+        background: #0f172a;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 8px;
+      }
+
+      .switch-row {
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 13px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin-top: 8px;
+      }
+
+      .switch-label {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .switch-desc {
+        margin: 4px 0 0;
+        font-size: 12px;
+        color: #64748b;
+      }
+
+      .switch-input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 1;
+        margin: 0;
+      }
+
+      .toggle-wrapper {
+        position: relative;
+        width: 44px;
+        height: 24px;
+        flex-shrink: 0;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        inset: 0;
+        background: #cbd5e1;
+        border-radius: 999px;
+        transition: background 0.2s ease;
+      }
+
+      .toggle-slider::before {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        transition: transform 0.2s ease;
+      }
+
+      .switch-input:checked + .toggle-slider {
+        background: #0f172a;
+      }
+
+      .switch-input:checked + .toggle-slider::before {
+        transform: translateX(20px);
+      }
+
+      .switch-input:focus-visible + .toggle-slider {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+      }
+
+      .actions {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        padding: 0 15px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.18s ease;
+      }
+
+      .btn-primary {
+        color: #fff;
+        background: #0f172a;
+      }
+
+      .btn-primary:hover {
+        background: #1e293b;
+      }
+
+      .btn-secondary {
+        color: #334155;
+        background: #fff;
+        border-color: #cbd5e1;
+      }
+
+      .btn-secondary:hover {
+        background: #f8fafc;
+      }
+
+      .btn.is-pending {
+        opacity: 0.68;
+        cursor: not-allowed;
+      }
+
+      .hint {
+        color: #64748b;
+        font-size: 12px;
+      }
+
+      .side-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .preset-grid {
+        display: grid;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .preset-btn {
+        width: 100%;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        background: #fff;
+        text-align: left;
+        padding: 10px 12px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: border-color 0.2s ease, background 0.2s ease;
+      }
+
+      .preset-btn:hover {
+        border-color: #cbd5e1;
+        background: #f8fafc;
+      }
+
+      .preset-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .preset-note {
+        margin: 0;
+        font-size: 12px;
+        color: #94a3b8;
+      }
+
+      .gesture-list,
+      .tip-list {
+        margin: 12px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .gesture-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 10px;
+        border-radius: 10px;
+        background: #f8fafc;
+        font-size: 13px;
+        color: #334155;
+        margin-bottom: 8px;
+        gap: 8px;
+      }
+
+      .gesture-item span:first-child {
+        font-weight: 600;
+        white-space: nowrap;
+        min-width: 40px;
+      }
+
+      .gesture-select {
+        flex: 1;
+        height: 32px;
+        border-radius: 8px;
+        border: 1px solid #cbd5e1;
+        background: #fff;
+        color: #0f172a;
+        font-size: 12px;
+        padding: 0 8px;
+        outline: none;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+      }
+
+      .gesture-select:focus {
+        border-color: #475569;
+      }
+
+      .gesture-desc {
+        width: 100%;
+        font-size: 11px;
+        color: #94a3b8;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      .tip-list li {
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.6;
+        margin-bottom: 6px;
+      }
+
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          padding: 14px;
+        }
+
+        .header,
+        .main-panel,
+        .side-panel > .card {
+          padding: 15px;
+        }
+
+        .title {
+          font-size: 24px;
+        }
+
+        .setting-item {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .setting-control {
+          justify-content: flex-end;
+        }
+
+        .number-input {
+          width: 132px;
+        }
+      }
+
+      .preset-btn.preset-active {
+        background: #eff6ff;
+        border-color: #3b82f6;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color: #e2e8f0;
+          background: #0f172a;
+        }
+
+        body {
+          background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+          color: #e2e8f0;
+        }
+
+        .card {
+          background: #1e293b;
+          border-color: #334155;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 14px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .badge,
+        .tiny-pill {
+          background: #334155;
+          border-color: #475569;
+          color: #94a3b8;
+        }
+
+        .status-chip.status-neutral {
+          background: #334155;
+          border-color: #475569;
+          color: #94a3b8;
+        }
+
+        .status-success {
+          background: rgba(34, 197, 94, 0.15);
+          border-color: rgba(34, 197, 94, 0.3);
+          color: #4ade80;
+        }
+
+        .status-error {
+          background: rgba(239, 68, 68, 0.15);
+          border-color: rgba(239, 68, 68, 0.3);
+          color: #f87171;
+        }
+
+        .status-info {
+          background: rgba(59, 130, 246, 0.15);
+          border-color: rgba(59, 130, 246, 0.3);
+          color: #60a5fa;
+        }
+
+        .title {
+          color: #f1f5f9;
+        }
+
+        .subtitle {
+          color: #94a3b8;
+        }
+
+        .setting-item,
+        .switch-row {
+          border-color: #334155;
+        }
+
+        .setting-item:hover {
+          border-color: #475569;
+        }
+
+        .setting-title,
+        .switch-label {
+          color: #f1f5f9;
+        }
+
+        .setting-desc,
+        .switch-desc {
+          color: #94a3b8;
+        }
+
+        .number-input {
+          background: #0f172a;
+          border-color: #475569;
+          color: #f1f5f9;
+        }
+
+        .number-input:focus {
+          border-color: #60a5fa;
+          box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+        }
+
+        .value-pill {
+          background: #3b82f6;
+        }
+
+        .btn-primary {
+          background: #3b82f6;
+        }
+
+        .btn-primary:hover {
+          background: #2563eb;
+        }
+
+        .btn-secondary {
+          background: #334155;
+          border-color: #475569;
+          color: #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+          background: #3b4a63;
+        }
+
+        .preset-btn {
+          background: #1e293b;
+          border-color: #334155;
+        }
+
+        .preset-btn:hover {
+          background: #334155;
+          border-color: #475569;
+        }
+
+        .preset-btn.preset-active {
+          background: rgba(59, 130, 246, 0.15);
+          border-color: #3b82f6;
+        }
+
+        .preset-title {
+          color: #f1f5f9;
+        }
+
+        .preset-note {
+          color: #64748b;
+        }
+
+        .gesture-item {
+          background: #334155;
+          color: #e2e8f0;
+        }
+
+        .gesture-item span:last-child {
+          color: #94a3b8;
+        }
+
+        .gesture-select {
+          background: #0f172a;
+          border-color: #475569;
+          color: #f1f5f9;
+        }
+
+        .gesture-desc {
+          color: #64748b;
+        }
+
+        .tip-list li {
+          color: #94a3b8;
+        }
+
+        .hint {
+          color: #94a3b8;
+        }
+
+        .toggle-slider {
+          background: #475569;
+        }
+
+        .switch-input:checked + .toggle-slider {
+          background: #3b82f6;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="card header">
+        <div class="header-top">
+          <div>
+            <p class="badge">✦ RapidTabs / Gesture Engine</p>
+            <h1 class="title">鼠标手势参数调优</h1>
+            <p class="subtitle">
+              工程极简风界面，支持实时参数回显、快速预设与快捷键保存（Ctrl/Cmd + S）。
+            </p>
+          </div>
+          <div>
+            <span id="status" class="status-chip status-neutral"></span>
+            <span id="unsaved-indicator" class="status-chip status-info" style="display: none; margin-left: 8px;">未保存</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="layout">
+        <article class="card main-panel">
+          <div class="section-head">
+            <h2>识别参数</h2>
+            <span class="tiny-pill">实时回显</span>
+          </div>
+
+          <label class="setting-item" for="minSegmentPx">
+            <div>
+              <p class="setting-title">方向段最小位移</p>
+              <p class="setting-desc">用于过滤轻微抖动，数值越高越稳定</p>
+            </div>
+            <div class="setting-control">
+              <input
+                id="minSegmentPx"
+                type="number"
+                min="5"
+                max="200"
+                step="1"
+                class="number-input"
+              />
+              <span data-display-for="minSegmentPx" class="value-pill"></span>
+            </div>
+          </label>
+
+          <label class="setting-item" for="minTotalPx">
+            <div>
+              <p class="setting-title">触发最小轨迹长度</p>
+              <p class="setting-desc">总路径不足时不触发识别，防误触</p>
+            </div>
+            <div class="setting-control">
+              <input id="minTotalPx" type="number" min="10" max="400" step="1" class="number-input" />
+              <span data-display-for="minTotalPx" class="value-pill"></span>
+            </div>
+          </label>
+
+          <label class="setting-item" for="maxTimeMs">
+            <div>
+              <p class="setting-title">最大识别时间</p>
+              <p class="setting-desc">超过该时长将视为无效手势</p>
+            </div>
+            <div class="setting-control">
+              <input id="maxTimeMs" type="number" min="200" max="5000" step="50" class="number-input" />
+              <span data-display-for="maxTimeMs" class="value-pill"></span>
+            </div>
+          </label>
+
+          <label class="setting-item" for="cardinalToleranceDeg">
+            <div>
+              <p class="setting-title">水平/垂直容差</p>
+              <p class="setting-desc">方向判断容错角度，越大越宽松</p>
+            </div>
+            <div class="setting-control">
+              <input
+                id="cardinalToleranceDeg"
+                type="number"
+                min="5"
+                max="60"
+                step="1"
+                class="number-input"
+              />
+              <span data-display-for="cardinalToleranceDeg" class="value-pill"></span>
+            </div>
+          </label>
+
+          <label class="setting-item" for="lMinLegPx">
+            <div>
+              <p class="setting-title">L 手势最短腿长</p>
+              <p class="setting-desc">L 形拐点两侧最小长度阈值</p>
+            </div>
+            <div class="setting-control">
+              <input id="lMinLegPx" type="number" min="10" max="400" step="1" class="number-input" />
+              <span data-display-for="lMinLegPx" class="value-pill"></span>
+            </div>
+          </label>
+
+          <label class="setting-item" for="vMaxAngleDeg">
+            <div>
+              <p class="setting-title">V/倒V 最大夹角</p>
+              <p class="setting-desc">限制顶点开口角，控制识别精度</p>
+            </div>
+            <div class="setting-control">
+              <input id="vMaxAngleDeg" type="number" min="30" max="160" step="1" class="number-input" />
+              <span data-display-for="vMaxAngleDeg" class="value-pill"></span>
+            </div>
+          </label>
+
+          <label class="setting-item" for="vMinLegPx">
+            <div>
+              <p class="setting-title">V/倒V 最短腿长</p>
+              <p class="setting-desc">两侧斜边长度不足时不触发</p>
+            </div>
+            <div class="setting-control">
+              <input id="vMinLegPx" type="number" min="10" max="400" step="1" class="number-input" />
+              <span data-display-for="vMinLegPx" class="value-pill"></span>
+            </div>
+          </label>
+
+          <label class="switch-row" for="vRelaxed">
+            <div>
+              <p class="switch-label">V/倒V 宽松模式</p>
+              <p class="switch-desc">允许上下折线，适合快速手势</p>
+            </div>
+            <div class="toggle-wrapper">
+              <input id="vRelaxed" type="checkbox" class="switch-input" />
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+
+          <label class="switch-row" for="showTrail">
+            <div>
+              <p class="switch-label">显示手势轨迹</p>
+              <p class="switch-desc">调参时建议开启，便于观察路径</p>
+            </div>
+            <div class="toggle-wrapper">
+              <input id="showTrail" type="checkbox" class="switch-input" />
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+
+          <label class="switch-row" for="debug">
+            <div>
+              <p class="switch-label">调试模式（Console）</p>
+              <p class="switch-desc">输出识别日志，排查手势失败原因</p>
+            </div>
+            <div class="toggle-wrapper">
+              <input id="debug" type="checkbox" class="switch-input" />
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+
+          <div class="actions">
+            <button id="save" class="btn btn-primary" type="button">保存设置</button>
+            <button id="reset" type="button" class="btn btn-secondary">恢复默认</button>
+            <p class="hint">支持快捷键：Ctrl/Cmd + S</p>
+          </div>
+        </article>
+
+        <aside class="side-panel">
+          <article class="card">
+            <div class="section-head">
+              <h3>快速预设</h3>
+            </div>
+            <p class="subtitle" style="margin-top: 0">先应用预设，再按手感微调参数。</p>
+            <div class="preset-grid">
+              <button data-preset="sensitive" data-preset-label="灵敏" class="preset-btn">
+                <p class="preset-title">灵敏</p>
+                <p class="preset-note">快节奏操作</p>
+              </button>
+              <button data-preset="balanced" data-preset-label="平衡" class="preset-btn">
+                <p class="preset-title">平衡</p>
+                <p class="preset-note">通用推荐</p>
+              </button>
+              <button data-preset="stable" data-preset-label="稳健" class="preset-btn">
+                <p class="preset-title">稳健</p>
+                <p class="preset-note">低误触</p>
+              </button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="section-head">
+              <h3>手势映射</h3>
+              <button id="resetGestures" class="btn btn-secondary" style="height:30px;font-size:12px;padding:0 10px;">恢复默认</button>
+            </div>
+            <p class="subtitle" style="margin-top:0;margin-bottom:10px;">选择每个手势对应的操作，修改后自动保存。</p>
+            <ul id="gestureList" class="gesture-list"></ul>
+          </article>
+
+          <article class="card">
+            <div class="section-head">
+              <h3>兼容性提示</h3>
+            </div>
+            <ul class="tip-list">
+              <li>1) 仅在“按住右键并拖动”时识别手势。</li>
+              <li>2) 识别成功会阻止默认右键菜单。</li>
+              <li>3) Chrome Web Store 与 chrome:// 页面受浏览器限制。</li>
+            </ul>
+          </article>
+        </aside>
+      </section>
+    </main>
+
+    <script src="options.js"></script>
+  </body>
+</html>
