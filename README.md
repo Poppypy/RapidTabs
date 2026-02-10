@@ -197,10 +197,9 @@ RapidTabs/
 
 
 
-### 🌟 Stargazers  
+## 🌟 Stargazers  
 
-[![Stargazers over time](https://starchart.cc/Poppypy/RapidTabs.svg?variant=adaptive)](https://starchart.cc/Poppypy/RapidTabs)
-
+[![Star History Chart](https://api.star-history.com/svg?repos=Poppypy/RapidTabs&type=Date)](https://star-history.com/#Poppypy/RapidTabs&Date)
 
 
 
