@@ -114,6 +114,32 @@ git clone https://github.com/Poppypy/RapidTabs.git
 
 也可直接使用 **快速预设**（灵敏 / 平衡 / 稳健）一键切换。
 
+#### 切换标签页
+
+
+
+
+![切换标签页|689x376](src\切换标签页.gif)
+
+
+#### 关闭、恢复标签页
+
+
+![关闭恢复标签页|689x376](src\关闭恢复标签页.gif)
+
+
+#### 前进后退
+
+
+![前进后退|689x376](src\前进后退.gif)
+
+
+#### 滚动至顶（底）
+
+
+![滚动到底（顶）|690x376](src\滚动到底（顶）.gif)
+
+
 <div align="right">
 
 [&nwarr; Back to top](#readme-top)
