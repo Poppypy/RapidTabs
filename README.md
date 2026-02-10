@@ -116,29 +116,19 @@ git clone https://github.com/Poppypy/RapidTabs.git
 
 #### 切换标签页
 
-
-
-
-![切换标签页|689x376](src\切换标签页.gif)
-
+<img src="src/切换标签页.gif" width="689" alt="切换标签页">
 
 #### 关闭、恢复标签页
 
-
-![关闭恢复标签页|689x376](src\关闭恢复标签页.gif)
-
+<img src="src/关闭恢复标签页.gif" width="689" alt="关闭恢复标签页">
 
 #### 前进后退
 
-
-![前进后退|689x376](src\前进后退.gif)
-
+<img src="src/前进后退.gif" width="689" alt="前进后退">
 
 #### 滚动至顶（底）
 
-
-![滚动到底（顶）|690x376](src\滚动到底（顶）.gif)
-
+<img src="src/滚动到底（顶）.gif" width="690" alt="滚动到底（顶）">
 
 <div align="right">
 
